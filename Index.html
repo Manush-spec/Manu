@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cybersecurity Awareness Demo</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#111;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    color:white;
+}
+
+.container{
+    width:360px;
+    background:#1d1d1d;
+    padding:25px;
+    border-radius:12px;
+}
+
+h1{
+    margin-bottom:10px;
+}
+
+p{
+    color:#bdbdbd;
+    font-size:14px;
+    margin-bottom:20px;
+}
+
+label{
+    display:block;
+    margin-top:15px;
+    margin-bottom:6px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    background:#2c2c2c;
+    border:none;
+    border-radius:8px;
+    color:white;
+    font-size:15px;
+}
+
+.checkbox{
+    margin-top:15px;
+}
+
+.checkbox input{
+    width:auto;
+}
+
+button{
+    width:100%;
+    padding:14px;
+    margin-top:20px;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
+    background:#555;
+    color:white;
+    cursor:not-allowed;
+}
+
+button.enabled{
+    background:#000;
+    cursor:pointer;
+}
+
+#strength{
+    margin-top:8px;
+    font-size:14px;
+}
+
+#result{
+    display:none;
+    margin-top:20px;
+    background:#d4edda;
+    color:#155724;
+    padding:15px;
+    border-radius:8px;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>Password</h1>
+
+<p>
+Password must contain at least 8 characters, one number and one letter.
+</p>
+
+<label>Username</label>
+<input type="text" id="username">
+
+<label>New Password</label>
+<input type="password" id="password">
+
+<label>Confirm Password</label>
+<input type="password" id="confirm">
+
+<div id="strength"></div>
+
+<div class="checkbox">
+<input type="checkbox" id="show">
+<label for="show" style="display:inline;"> Show Passwords</label>
+</div>
+
+<button id="update" disabled>Update</button>
+
+<div id="result">
+<h3>Cybersecurity Awareness Demo</h3>
+<br>
+<p style="color:#155724;">
+No information was collected, stored, or transmitted.
+
+This demonstration shows why users should always verify the website address before entering usernames or passwords.
+
+Always check the domain name, HTTPS, and whether the page belongs to the organization you intended to visit.
+</p>
+</div>
+
+</div>
+
+<script>
+
+const pass=document.getElementById("password");
+const confirmPass=document.getElementById("confirm");
+const button=document.getElementById("update");
+const strength=document.getElementById("strength");
+
+function validate(){
+
+let p=pass.value;
+
+if(p.length<8){
+strength.innerHTML="Password Strength: Weak";
+}
+else if(/[0-9]/.test(p) && /[A-Za-z]/.test(p)){
+strength.innerHTML="Password Strength: Strong";
+}
+else{
+strength.innerHTML="Password Strength: Medium";
+}
+
+if(pass.value!="" && pass.value===confirmPass.value){
+
+button.disabled=false;
+button.classList.add("enabled");
+
+}else{
+
+button.disabled=true;
+button.classList.remove("enabled");
+
+}
+
+}
+
+pass.addEventListener("input",validate);
+confirmPass.addEventListener("input",validate);
+
+document.getElementById("show").addEventListener("change",function(){
+
+let type=this.checked?"text":"password";
+
+pass.type=type;
+confirmPass.type=type;
+
+});
+
+button.addEventListener("click",function(){
+
+document.getElementById("username").value="";
+pass.value="";
+confirmPass.value="";
+strength.innerHTML="";
+button.disabled=true;
+button.classList.remove("enabled");
+
+document.getElementById("result").style.display="block";
+
+});
+
+</script>
+
+</body>
+</html>
